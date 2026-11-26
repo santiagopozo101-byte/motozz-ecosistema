@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTOZZ — Movilidad eléctrica</title>
+<meta name="description" content="MOTOZZ: scooters, triciclos y motos eléctricas para moverte sin gasolina, sin ruido y sin límites.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171a;
+    --bg-soft: #1c2024;
+    --surface: #21262b;
+    --line: #333a40;
+    --text: #f1f3ef;
+    --text-muted: #9aa1a8;
+    --volt: #39ff14;
+    --volt-dim: #2fd911;
+    --blue: #4d8dff;
+    --radius: 14px;
+    --maxw: 1180px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3{
+    font-family: 'Archivo Black', 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.05;
+    margin: 0 0 .5em;
+    letter-spacing: -0.01em;
+  }
+  p{ margin: 0 0 1em; color: var(--text-muted); max-width: 62ch; }
+  a{ color: inherit; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  section{ padding: 96px 0; }
+  @media (max-width: 640px){ section{ padding: 64px 0; } .wrap{ padding: 0 20px; } }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--volt);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  /* ---------- NAV ---------- */
+  header.site{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(20,23,26,.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .navbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 16px 28px; max-width: var(--maxw); margin:0 auto;
+  }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Archivo Black',sans-serif; font-size: 1.35rem; letter-spacing: -0.02em; text-decoration:none; color: var(--text);}
+  .logo .zz{ color: var(--volt); text-shadow: 0 0 14px rgba(57,255,20,.75); }
+  .logo svg{ width: 26px; height: 26px; flex-shrink:0; }
+  .navlinks{ display:flex; gap: 32px; list-style:none; margin:0; padding:0; }
+  .navlinks a{ text-decoration:none; color: var(--text-muted); font-size:.95rem; font-weight:500; transition: color .15s ease; }
+  .navlinks a:hover{ color: var(--text); }
+  .nav-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--volt); color:#10130f; font-weight:700; font-size:.9rem;
+    padding: 10px 18px; border-radius: 999px; text-decoration:none;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .nav-cta:hover{ background: var(--volt-dim); transform: translateY(-1px); }
+  .menu-btn{ display:none; background:none; border:1px solid var(--line); color:var(--text); border-radius:8px; padding:8px 10px; cursor:pointer; }
+  @media (max-width: 860px){
+    .navlinks{ display:none; }
+    .menu-btn{ display:inline-flex; }
+    .nav-cta span.long{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    overflow: hidden;
+    padding: 140px 0 120px;
+    min-height: 78vh;
+    display:flex; align-items:center;
+    background:
+      radial-gradient(circle at 88% 15%, rgba(57,255,20,.20), transparent 42%),
+      linear-gradient(90deg, rgba(20,23,26,.96) 0%, rgba(20,23,26,.80) 48%, rgba(20,23,26,.30) 100%),
+      url('img/hero.jpg') right center / cover no-repeat,
+      url('https://images.unsplash.com/photo-1607091083645-31f4e28dc9af?auto=format&fit=crop&w=1800&q=80') right center / cover no-repeat,
+      var(--bg);
+  }
+  .hero .wrap{ width:100%; }
+  .hero .wrap{ position:relative; z-index:1; }
+  .hero-grid{ max-width: 660px; }
+  .eyebrow-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid var(--line); border-radius:999px; padding:6px 14px;
+    font-size:.82rem; color: var(--text-muted); margin-bottom: 24px;
+  }
+  .eyebrow-badge .dot{ width:7px; height:7px; border-radius:50%; background:var(--volt); box-shadow:0 0 10px var(--volt); }
+  .hero h1{ font-size: clamp(2.4rem, 5.2vw, 4.1rem); color: var(--text); }
+  .hero h1 em{ font-style:normal; color: var(--volt); }
+  .hero p.lead{ font-size: 1.15rem; max-width: 46ch; color:#c7ccd1; }
+  .hero-cta-row{ display:flex; gap:14px; flex-wrap:wrap; margin-top: 32px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding: 15px 26px; border-radius: 10px; font-weight:700; font-size:.98rem;
+    text-decoration:none; border: 1px solid transparent; cursor:pointer;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn-primary{ background: var(--volt); color:#10130f; }
+  .btn-primary:hover{ background: var(--volt-dim); transform: translateY(-2px); }
+  .btn-ghost{ background: transparent; color: var(--text); border-color: var(--line); }
+  .btn-ghost:hover{ border-color: var(--text-muted); }
+
+  .stat-strip{
+    display:flex; gap: 36px; margin-top: 56px; flex-wrap:wrap;
+    border-top: 1px solid var(--line); padding-top: 28px;
+  }
+  .stat-strip div{ min-width: 120px; }
+  .stat-strip strong{ display:block; font-family:'Archivo Black'; font-size:1.7rem; color:var(--volt); }
+  .stat-strip span{ font-size:.85rem; color: var(--text-muted); }
+
+  .charge-badge{
+    position:absolute; bottom:28px; right:28px; z-index:2;
+    background: rgba(20,23,26,.78); border:1px solid var(--line);
+    border-radius: 12px; padding: 12px 16px; backdrop-filter: blur(6px);
+    font-size:.82rem; color: var(--text-muted);
+  }
+  .charge-badge strong{ color: var(--volt); display:block; font-size:1rem; font-family:'Archivo Black'; }
+  @media (max-width: 700px){ .charge-badge{ display:none; } }
+
+  /* ---------- VALUE PROP ---------- */
+  .section-head{ max-width: 640px; margin-bottom: 56px; }
+  .section-head .kicker{ color: var(--blue); font-weight:700; font-size:.85rem; margin-bottom: 10px; display:block; }
+  .section-head h2{ font-size: clamp(1.9rem, 3.4vw, 2.6rem); color: var(--text); }
+
+  .value-grid{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line); border:1px solid var(--line); border-radius: var(--radius); overflow:hidden;
+  }
+  @media (max-width: 920px){ .value-grid{ grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 540px){ .value-grid{ grid-template-columns: 1fr; } }
+  .value-item{ background: var(--bg-soft); padding: 32px 26px; }
+  .value-item .num{ font-family:'Archivo Black'; color: var(--volt); font-size:1.1rem; margin-bottom: 18px; display:block; }
+  .value-item h3{ font-size: 1.08rem; color: var(--text); font-family:'Inter'; font-weight:700; }
+  .value-item p{ font-size: .92rem; margin:0; }
+
+  /* ---------- PRODUCTS ---------- */
+  .products{ background: var(--bg-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .product-list{ display:flex; flex-direction:column; }
+  .product-row{
+    display:grid; grid-template-columns: 260px 1.1fr 1.6fr; gap: 36px; align-items:center;
+    padding: 38px 0; border-top: 1px solid var(--line);
+  }
+  .product-list .product-row:first-child{ border-top:none; }
+  @media (max-width: 780px){
+    .product-row{ grid-template-columns: 1fr; gap: 20px; }
+    .product-row .prod-desc{ grid-column: 1 / -1; }
+  }
+  .prod-photo{ width:100%; aspect-ratio: 4/3; object-fit:cover; border-radius: 12px; border:1px solid var(--line); background: var(--surface); }
+  .prod-name h3{ font-size: 1.4rem; color: var(--text); font-family:'Archivo Black'; }
+  .prod-tag{ display:inline-block; font-size:.75rem; color: var(--blue); border:1px solid rgba(77,141,255,.4); padding:3px 10px; border-radius:999px; margin-top:6px; }
+  .prod-desc p{ margin:0; font-size: .98rem; }
+  .prod-desc ul{ margin: 10px 0 0; padding-left: 18px; color: var(--text-muted); font-size:.88rem; }
+  .prod-desc li{ margin-bottom: 4px; }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items:start; }
+  @media (max-width: 860px){ .about-grid{ grid-template-columns: 1fr; } }
+  .about-quote{
+    border-left: 3px solid var(--volt); padding-left: 22px; font-size:1.25rem; color: var(--text);
+    font-family:'Archivo Black'; line-height:1.25; margin-bottom: 0;
+  }
+  .about-photo{ width:100%; aspect-ratio: 16/10; object-fit:cover; border-radius: 14px; border:1px solid var(--line); margin-top: 28px; background: var(--surface); }
+  .about-list{ list-style:none; margin:24px 0 0; padding:0; display:grid; gap:14px; }
+  .about-list li{ display:flex; gap:12px; align-items:flex-start; color: var(--text-muted); font-size:.95rem; }
+  .about-list svg{ width:18px; height:18px; flex-shrink:0; color: var(--volt); margin-top:3px; }
+
+  /* ---------- CTA ---------- */
+  .cta-final{
+    text-align:left; background: linear-gradient(120deg, #0e2410, #14171a 55%);
+    border-radius: 24px; border: 1px solid var(--line);
+    padding: 64px 56px; display:flex; justify-content:space-between; align-items:center; gap:40px; flex-wrap:wrap;
+  }
+  .cta-final h2{ font-size: clamp(1.7rem,3vw,2.3rem); max-width: 18ch; color: var(--text); }
+  .cta-final p{ margin: 10px 0 0; }
+  @media (max-width: 640px){ .cta-final{ padding: 40px 26px; } }
+
+
+  /* ---------- COTIZADOR ---------- */
+  .btn-sm{ padding: 11px 20px; font-size:.9rem; margin-top: 18px; }
+  dialog.quote{
+    border:1px solid var(--line); border-radius: 18px; background: var(--bg-soft); color: var(--text);
+    padding: 0; width: min(480px, calc(100% - 32px)); box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  }
+  dialog.quote::backdrop{ background: rgba(8,10,12,.72); backdrop-filter: blur(3px); }
+  .quote-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding: 26px 28px 0; }
+  .quote-head h3{ font-size:1.35rem; margin:0; color: var(--text); }
+  .quote-head h3 span{ color: var(--volt); }
+  .quote-close{ background:none; border:1px solid var(--line); color: var(--text-muted); width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1rem; flex-shrink:0; }
+  .quote-close:hover{ color: var(--text); border-color: var(--text-muted); }
+  .quote form{ padding: 18px 28px 28px; display:grid; gap:14px; }
+  .quote .hint{ margin:0 0 4px; font-size:.9rem; }
+  .field{ display:grid; gap:6px; }
+  .field label{ font-size:.85rem; font-weight:600; color:#c7ccd1; }
+  .field input, .field select, .field textarea{
+    width:100%; background: var(--bg); color: var(--text); border:1px solid var(--line);
+    border-radius: 10px; padding: 12px 14px; font: inherit; font-size:.95rem;
+  }
+  .field textarea{ resize: vertical; min-height: 76px; }
+  .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible{ outline: 2px solid var(--volt); outline-offset: 1px; border-color: transparent; }
+  .field input[aria-invalid="true"]{ border-color:#ff5c5c; }
+  .field .err{ color:#ff8080; font-size:.8rem; min-height: 1em; }
+  .row2{ display:grid; grid-template-columns: 1fr 110px; gap:12px; }
+  .quote-actions{ display:flex; gap:10px; margin-top:6px; }
+  .quote-actions .btn{ flex:1; justify-content:center; margin:0; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ border-top: 1px solid var(--line); padding: 44px 0 32px; }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  footer .logo{ font-size: 1.1rem; }
+  .footer-links{ display:flex; gap: 24px; list-style:none; padding:0; margin:0; }
+  .footer-links a{ text-decoration:none; color: var(--text-muted); font-size:.88rem; }
+  .footer-links a:hover{ color: var(--text); }
+  .footer-note{ margin-top: 24px; font-size:.8rem; color:#666d73; }
+
+  /* ---------- WHATSAPP FLOAT ---------- */
+  .wa-float{
+    position: fixed; right: 22px; bottom: 22px; z-index: 60;
+    display:flex; align-items:center; gap:10px;
+    background: #25D366; color:#0b1a10; text-decoration:none;
+    padding: 14px 18px; border-radius: 999px; font-weight:700; font-size:.9rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    transition: transform .15s ease;
+  }
+  .wa-float:hover{ transform: translateY(-2px) scale(1.02); }
+  .wa-float svg{ width:20px; height:20px; }
+  @media (max-width: 540px){ .wa-float span{ display:none; } .wa-float{ padding:14px; } }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="navbar">
+    <a href="#top" class="logo" aria-label="MOTOZZ inicio">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="currentColor" style="color:#39ff14"/>
+      </svg>
+      MOTO<span class="zz">ZZ</span>
+    </a>
+    <nav>
+      <ul class="navlinks">
+        <li><a href="#propuesta">Por qué MOTOZZ</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="nav-cta" href="https://wa.me/5930984712637" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.9.53 3.66 1.44 5.17L2 22l5.06-1.53a9.87 9.87 0 0 0 4.98 1.35h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.16-4.94-4.35-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2 .89 2.15.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.76 1.26 1.64 2.04 1.13.99 2.07 1.3 2.36 1.44.29.15.46.13.63-.08.17-.21.72-.84.92-1.13.19-.29.39-.24.65-.14.27.1 1.68.79 1.97.94.29.14.48.21.55.33.08.13.08.72-.16 1.4Z"/></svg>
+      <span class="long">Contáctanos por WhatsApp</span>
+      <span aria-hidden="true" style="display:none">WA</span>
+    </a>
+    <button class="menu-btn" aria-label="Abrir menú" onclick="document.getElementById('mnav').classList.toggle('open')">☰</button>
+  </div>
+  <nav id="mnav" style="display:none; border-top:1px solid var(--line);">
+    <ul style="list-style:none; margin:0; padding:16px 28px; display:flex; flex-direction:column; gap:14px;">
+      <li><a href="#propuesta" style="text-decoration:none;color:var(--text-muted)">Por qué MOTOZZ</a></li>
+      <li><a href="#productos" style="text-decoration:none;color:var(--text-muted)">Productos</a></li>
+      <li><a href="#nosotros" style="text-decoration:none;color:var(--text-muted)">Nosotros</a></li>
+      <li><a href="#contacto" style="text-decoration:none;color:var(--text-muted)">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <span class="eyebrow-badge"><span class="dot"></span> Movilidad eléctrica en Ecuador</span>
+        <h1>Muévete sin gasolina, sin ruido y sin <em>límites</em>.</h1>
+        <p class="lead">MOTOZZ diseña scooters, triciclos y motos eléctricas pensadas para el uso real de la ciudad: repartos, trabajo diario y trayectos cortos, con menor costo por kilómetro que cualquier motor de combustión.</p>
+        <div class="hero-cta-row">
+          <a class="btn btn-primary" href="https://wa.me/5930984712637" target="_blank" rel="noopener">Contáctanos por WhatsApp</a>
+          <a class="btn btn-ghost" href="#productos">Ver productos</a>
+        </div>
+        <div class="stat-strip">
+          <div><strong>0</strong><span>emisiones al conducir</span></div>
+          <div><strong>&lt;$1</strong><span>costo estimado por carga</span></div>
+          <div><strong>4</strong><span>modelos para cada necesidad</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="charge-badge"><strong>100% eléctrico</strong>Carga en cualquier toma de 110V</div>
+  </section>
+
+  <!-- ================= PROPUESTA DE VALOR ================= -->
+  <section id="propuesta">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Por qué MOTOZZ</span>
+        <h2>Menos gasto, menos mantenimiento, más autonomía para tu día a día.</h2>
+        <p>Comparamos cada modelo contra su equivalente a combustión: MOTOZZ gana en costo operativo, silencio y simplicidad mecánica, sin sacrificar la potencia que necesita el uso urbano o de reparto.</p>
+      </div>
+      <div class="value-grid">
+        <div class="value-item">
+          <span class="num">01</span>
+          <h3>Ahorro real de combustible</h3>
+          <p>Cargar cuesta una fracción de lo que gastas en gasolina cada semana, sin visitas a la gasolinera.</p>
+        </div>
+        <div class="value-item">
+          <span class="num">02</span>
+          <h3>Mantenimiento simple</h3>
+          <p>Sin cambios de aceite, sin bujías ni filtros. El motor eléctrico tiene muchas menos piezas que fallar.</p>
+        </div>
+        <div class="value-item">
+          <span class="num">03</span>
+          <h3>Ideal para negocios</h3>
+          <p>Triciclos de carga y scooters pensados para delivery, ventas ambulantes y flotas de reparto propias.</p>
+        </div>
+        <div class="value-item">
+          <span class="num">04</span>
+          <h3>Silencioso y limpio</h3>
+          <p>Cero emisiones directas y un motor casi silencioso, ideal para circular por zonas residenciales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRODUCTOS ================= -->
+  <section class="products" id="productos">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Catálogo</span>
+        <h2>Un modelo para cada forma de moverte</h2>
+        <p>Cuatro vehículos eléctricos, cada uno resuelve un uso distinto: desplazamiento personal, carga de mercancía o manejo deportivo.</p>
+      </div>
+
+      <div class="product-list">
+
+        <div class="product-row">
+          <img class="prod-photo" data-local="img/scooter.jpg" data-remote="https://images.unsplash.com/photo-1648204834832-78e68052c04f?fm=jpg&amp;q=60&amp;w=3000&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" data-label="Scooter eléctrico" alt="Scooter eléctrico" loading="lazy" referrerpolicy="no-referrer">
+          <div class="prod-name">
+            <h3>Scooter eléctrico</h3>
+            <span class="prod-tag">Uso urbano diario</span>
+          </div>
+          <div class="prod-desc">
+            <p>Ligero, ágil y fácil de estacionar. Pensado para trayectos cortos en la ciudad, universidad o trabajo, sin gasto en gasolina ni parqueaderos complicados.</p>
+            <ul>
+              <li>Ideal para trayectos de 1 a 2 personas</li>
+              <li>Bajo peso, fácil de maniobrar en tráfico</li>
+              <li>Carga estándar en toma doméstica</li>
+            </ul>
+            <button type="button" class="btn btn-primary btn-sm quote-btn" data-model="Scooter eléctrico">Cotizar scooter eléctrico</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <img class="prod-photo" data-local="img/triciclo.jpg" data-remote="https://shopcdnpro.grainajz.com/308/upload/news/2f4220a209a265238361adb039409de13bed7d37fa90e0271e6831584c054324.jpg" data-label="Triciclo eléctrico" alt="Triciclo eléctrico" loading="lazy" referrerpolicy="no-referrer">
+          <div class="prod-name">
+            <h3>Triciclo eléctrico</h3>
+            <span class="prod-tag">Carga y reparto</span>
+          </div>
+          <div class="prod-desc">
+            <p>Estabilidad de tres ruedas y espacio de carga para negocios de reparto, ventas ambulantes o transporte de mercadería, con menor costo operativo que una moto de combustión.</p>
+            <ul>
+              <li>Mayor capacidad de carga y estabilidad</li>
+              <li>Reduce el costo por entrega frente a vehículos a gasolina</li>
+              <li>Pensado para jornadas largas de trabajo</li>
+            </ul>
+            <button type="button" class="btn btn-primary btn-sm quote-btn" data-model="Triciclo eléctrico">Cotizar triciclo eléctrico</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <img class="prod-photo" data-local="img/moto-cross.jpg" data-remote="https://www.hibridosyelectricos.com/uploads/s1/95/30/33/476007941-122247667682026257-7716063828487026843-n.jpeg" data-label="Moto cross eléctrica" alt="Moto cross eléctrica" loading="lazy" referrerpolicy="no-referrer">
+          <div class="prod-name">
+            <h3>Moto cross eléctrica</h3>
+            <span class="prod-tag">Uso deportivo / fuera de ruta</span>
+          </div>
+          <div class="prod-desc">
+            <p>Suspensión reforzada y torque inmediato para terrenos irregulares. Pensada para quienes buscan adrenalina sin el ruido ni el mantenimiento de un motor a gasolina.</p>
+            <ul>
+              <li>Respuesta inmediata de torque eléctrico</li>
+              <li>Diseñada para terrenos exigentes</li>
+              <li>Menor ruido durante la práctica deportiva</li>
+            </ul>
+            <button type="button" class="btn btn-primary btn-sm quote-btn" data-model="Moto cross eléctrica">Cotizar moto cross eléctrica</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <img class="prod-photo" data-local="img/moto-naked.jpg" data-remote="https://cdn.motor1.com/images/mgl/zxpQmq/s1/german-electric-motorcycle-maker-tinbot-introduces-tb-rs1-naked-bike.webp" data-label="Moto eléctrica tipo naked" alt="Moto eléctrica tipo naked" loading="lazy" referrerpolicy="no-referrer">
+          <div class="prod-name">
+            <h3>Moto eléctrica tipo naked</h3>
+            <span class="prod-tag">Ciudad y carretera</span>
+          </div>
+          <div class="prod-desc">
+            <p>Diseño desnudo y postura deportiva para quienes quieren una moto con carácter, potencia suficiente para ciudad y carretera, y el mismo ahorro eléctrico de toda la línea MOTOZZ.</p>
+            <ul>
+              <li>Diseño deportivo tipo naked</li>
+              <li>Buen equilibrio entre potencia y autonomía</li>
+              <li>Pensada para trayectos urbanos e interurbanos</li>
+            </ul>
+            <button type="button" class="btn btn-primary btn-sm quote-btn" data-model="Moto eléctrica tipo naked">Cotizar moto eléctrica tipo naked</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= NOSOTROS ================= -->
+  <section id="nosotros">
+    <div class="wrap about-grid">
+      <div>
+        <p class="about-quote">Creemos que cambiar de motor a batería no debería significar renunciar a nada.</p>
+        <p style="margin-top:18px">En MOTOZZ trabajamos con personas y negocios que dependen de su vehículo todos los días: repartidores, estudiantes, comerciantes y quienes simplemente quieren dejar de pagar gasolina cada semana.</p>
+        <img class="about-photo" data-local="img/nosotros.jpg" data-remote="https://images.unsplash.com/photo-1623079400394-f07956928c3f?auto=format&fit=crop&w=1000&q=75" data-label="MOTOZZ" alt="Moto eléctrica negra y verde" loading="lazy" referrerpolicy="no-referrer">
+      </div>
+      <ul class="about-list">
+        <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Asesoría para elegir el modelo correcto según tu uso.</li>
+        <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Soporte y repuestos disponibles después de la compra.</li>
+        <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Atención directa por WhatsApp, sin intermediarios.</li>
+        <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Modelos pensados tanto para uso personal como para negocio.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= CTA FINAL ================= -->
+  <section id="contacto">
+    <div class="wrap">
+      <div class="cta-final">
+        <div>
+          <h2>¿Listo para dejar de gastar en gasolina?</h2>
+          <p>Escríbenos y te ayudamos a elegir el modelo MOTOZZ que mejor se ajusta a tu uso diario.</p>
+        </div>
+        <a class="btn btn-primary" href="https://wa.me/5930984712637" target="_blank" rel="noopener">Contáctanos por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <a href="#top" class="logo">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#39ff14"/></svg>
+        MOTO<span class="zz">ZZ</span>
+      </a>
+      <ul class="footer-links">
+        <li><a href="#propuesta">Por qué MOTOZZ</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="https://wa.me/5930984712637" target="_blank" rel="noopener">WhatsApp</a></li>
+      </ul>
+    </div>
+    <p class="footer-note">© <span id="year"></span> MOTOZZ. Movilidad eléctrica para tu ciudad.</p>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5930984712637" target="_blank" rel="noopener" aria-label="Contáctanos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.9.53 3.66 1.44 5.17L2 22l5.06-1.53a9.87 9.87 0 0 0 4.98 1.35h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.16-4.94-4.35-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2 .89 2.15.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.76 1.26 1.64 2.04 1.13.99 2.07 1.3 2.36 1.44.29.15.46.13.63-.08.17-.21.72-.84.92-1.13.19-.29.39-.24.65-.14.27.1 1.68.79 1.97.94.29.14.48.21.55.33.08.13.08.72-.16 1.4Z"/></svg>
+  <span>WhatsApp</span>
+</a>
+
+<dialog class="quote" id="quoteDialog" aria-labelledby="quoteTitle">
+  <div class="quote-head">
+    <h3 id="quoteTitle">Cotizar <span id="quoteModel"></span></h3>
+    <button type="button" class="quote-close" id="quoteClose" aria-label="Cerrar">✕</button>
+  </div>
+  <form id="quoteForm" novalidate>
+    <p class="hint">Completa estos datos y te abrimos WhatsApp con tu solicitud lista para enviar.</p>
+    <div class="field">
+      <label for="qName">Nombre</label>
+      <input id="qName" name="name" type="text" autocomplete="name" placeholder="Tu nombre" required>
+      <span class="err" id="qNameErr"></span>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="qCity">Ciudad</label>
+        <input id="qCity" name="city" type="text" autocomplete="address-level2" placeholder="Ej: Quito" required>
+        <span class="err" id="qCityErr"></span>
+      </div>
+      <div class="field">
+        <label for="qQty">Cantidad</label>
+        <input id="qQty" name="qty" type="number" min="1" max="99" value="1" required>
+        <span class="err" id="qQtyErr"></span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="qUse">Uso principal</label>
+      <select id="qUse" name="use">
+        <option>Uso personal</option>
+        <option>Trabajo / reparto</option>
+        <option>Flota para mi negocio</option>
+        <option>Deporte / recreación</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="qNote">Comentario (opcional)</label>
+      <textarea id="qNote" name="note" placeholder="¿Financiamiento, color, entrega...?"></textarea>
+    </div>
+    <div class="quote-actions">
+      <button type="button" class="btn btn-ghost" id="quoteCancel">Cancelar</button>
+      <button type="submit" class="btn btn-primary">Enviar por WhatsApp</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+
+  // Carga de imágenes: 1) carpeta local img/  2) URL remota  3) ilustración de respaldo
+  (function(){
+    function placeholder(label){
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">' +
+        '<rect width="800" height="600" fill="#21262b"/>' +
+        '<path d="M430 110L330 270h80l-18 120 110-170h-80l28-110z" fill="#39ff14"/>' +
+        '<text x="400" y="480" font-family="Arial,sans-serif" font-weight="700" font-size="34" fill="#f1f3ef" text-anchor="middle">' + label + '</text>' +
+        '</svg>';
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+    document.querySelectorAll('img[data-local]').forEach(function(img){
+      var step = 0;
+      var sources = [img.dataset.local, img.dataset.remote, placeholder(img.dataset.label || 'MOTOZZ')];
+      img.addEventListener('error', function(){
+        step++;
+        if (step < sources.length) img.src = sources[step];
+      });
+      img.src = sources[0];
+    });
+  })();
+
+  (function(){
+    var WA = '5930984712637';
+    var dlg = document.getElementById('quoteDialog');
+    var form = document.getElementById('quoteForm');
+    var modelEl = document.getElementById('quoteModel');
+    var currentModel = '';
+    var lastBtn = null;
+
+    function openQuote(btn){
+      lastBtn = btn;
+      currentModel = btn.getAttribute('data-model');
+      modelEl.textContent = currentModel.toLowerCase();
+      dlg.showModal();
+      document.getElementById('qName').focus();
+    }
+    function closeQuote(){
+      dlg.close();
+      if (lastBtn) lastBtn.focus();
+    }
+    function setErr(id, inputId, msg){
+      document.getElementById(id).textContent = msg;
+      document.getElementById(inputId).setAttribute('aria-invalid', msg ? 'true' : 'false');
+      return !msg;
+    }
+
+    document.querySelectorAll('.quote-btn').forEach(function(b){
+      b.addEventListener('click', function(){ openQuote(b); });
+    });
+    document.getElementById('quoteClose').addEventListener('click', closeQuote);
+    document.getElementById('quoteCancel').addEventListener('click', closeQuote);
+    dlg.addEventListener('click', function(e){ if (e.target === dlg) closeQuote(); });
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var name = form.name.value.trim();
+      var city = form.city.value.trim();
+      var qty  = parseInt(form.qty.value, 10);
+      var ok = true;
+      ok = setErr('qNameErr','qName', name ? '' : 'Escribe tu nombre.') && ok;
+      ok = setErr('qCityErr','qCity', city ? '' : 'Indica tu ciudad.') && ok;
+      ok = setErr('qQtyErr','qQty', (qty >= 1 && qty <= 99) ? '' : 'De 1 a 99.') && ok;
+      if (!ok) return;
+
+      var lines = [
+        'Hola MOTOZZ, quiero cotizar: ' + currentModel + '.',
+        'Nombre: ' + name,
+        'Ciudad: ' + city,
+        'Cantidad: ' + qty,
+        'Uso: ' + form.use.value
+      ];
+      var note = form.note.value.trim();
+      if (note) lines.push('Comentario: ' + note);
+
+      var url = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(lines.join('\n'));
+      window.open(url, '_blank', 'noopener');
+      form.reset();
+      dlg.close();
+    });
+  })();
+
+</script>
+
+</body>
+</html>

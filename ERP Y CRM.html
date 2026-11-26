@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOTOZZ | Enterprise ERP & CRM Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-oled: #08080c;
+      --bg-surface: #101018;
+      --bg-card: rgba(20, 20, 30, 0.72);
+      --border-glass: rgba(168, 85, 247, 0.22);
+      --border-hover: rgba(217, 70, 239, 0.65);
+      --neon-magenta: #d946ef;
+      --neon-purple: #a855f7;
+      --neon-glow: 0 0 12px rgba(217, 70, 239, 0.7), 0 0 28px rgba(168, 85, 247, 0.45);
+      --text-main: #f4f4f6;
+      --text-muted: #9ca3af;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --info: #38bdf8;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-oled);
+      background-image:
+        radial-gradient(circle at 12% 15%, rgba(168, 85, 247, 0.12) 0%, transparent 38%),
+        radial-gradient(circle at 88% 82%, rgba(217, 70, 239, 0.10) 0%, transparent 42%);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Brand Identity */
+    .brand-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 1.55rem;
+      letter-spacing: 2px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .neon-zz {
+      color: var(--neon-magenta);
+      text-shadow: 0 0 10px #a855f7, 0 0 24px #9333ea, 0 0 38px #7e22ce;
+    }
+
+    /* Top Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 8, 12, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-glass);
+      padding: 0.9rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .sync-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(1.25); }
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 0.6rem;
+      background: var(--bg-surface);
+      padding: 0.35rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-glass);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.55rem 1.15rem;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(217, 70, 239, 0.28));
+      color: #fff;
+      border: 1px solid var(--border-hover);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 1.75rem 2rem 3rem;
+    }
+
+    /* KPI Strip */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.15rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+      padding: 1.35rem;
+      transition: border-color 0.25s ease, transform 0.2s ease;
+    }
+
+    .glass-card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .kpi-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .kpi-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+
+    .kpi-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .trend-up {
+      color: #6ee7b7;
+      font-weight: 600;
+    }
+
+    /* Sections */
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Buttons */
+    .btn-neon {
+      background: linear-gradient(135deg, var(--neon-purple), var(--neon-magenta));
+      color: #fff;
+      border: none;
+      padding: 0.65rem 1.25rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.86rem;
+      cursor: pointer;
+      box-shadow: 0 0 16px rgba(217, 70, 239, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-neon:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--neon-glow);
+    }
+
+    .btn-outline {
+      background: rgba(168, 85, 247, 0.1);
+      color: #e9d5ff;
+      border: 1px solid var(--border-hover);
+      padding: 0.5rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      background: rgba(217, 70, 239, 0.25);
+      color: #fff;
+    }
+
+    /* Grid Layouts for Overview */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 980px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Stock Bars */
+    .stock-item {
+      margin-bottom: 1rem;
+    }
+
+    .stock-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .stock-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.86rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-purple), var(--neon-magenta));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    /* Event Console */
+    .event-log {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.78rem;
+      background: rgba(5, 5, 8, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 0.9rem;
+      max-height: 270px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .log-entry {
+      border-left: 2px solid var(--neon-magenta);
+      padding-left: 0.65rem;
+      color: #d1d5db;
+    }
+
+    .log-time {
+      color: var(--neon-purple);
+      font-weight: 700;
+    }
+
+    /* ERP Controls & Table */
+    .erp-sim-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1.35rem;
+      align-items: end;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(10, 10, 16, 0.9);
+      border: 1px solid var(--border-glass);
+      color: #fff;
+      padding: 0.58rem 0.75rem;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--neon-magenta);
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.8rem 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-glass);
+    }
+
+    td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    tr:hover td {
+      background: rgba(168, 85, 247, 0.05);
+    }
+
+    .vin-code {
+      font-family: monospace;
+      color: #e9d5ff;
+      background: rgba(168, 85, 247, 0.14);
+      padding: 0.2rem 0.45rem;
+      border-radius: 5px;
+    }
+
+    /* Badges */
+    .badge {
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .badge-stock { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.35); }
+    .badge-pdi { background: rgba(245, 158, 11, 0.15); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.35); }
+    .badge-route { background: rgba(56, 189, 248, 0.15); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.35); }
+    .badge-delivered { background: rgba(217, 70, 239, 0.18); color: #f5d0fe; border: 1px solid rgba(217, 70, 239, 0.45); }
+
+    /* CRM Pipeline */
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 1050px) {
+      .pipeline-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .pipeline-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stage-col {
+      background: rgba(13, 13, 20, 0.75);
+      border: 1px solid var(--border-glass);
+      border-radius: 14px;
+      padding: 0.9rem;
+    }
+
+    .stage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .stage-count {
+      background: rgba(168, 85, 247, 0.25);
+      color: #fff;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+    }
+
+    .rider-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 0.8rem;
+      margin-bottom: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .rider-card:hover, .rider-card.selected {
+      border-color: var(--neon-magenta);
+      box-shadow: 0 0 12px rgba(217, 70, 239, 0.22);
+    }
+
+    .rider-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .rider-model {
+      font-size: 0.78rem;
+      color: #d8b4fe;
+    }
+
+    .rider-pay {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    /* 360 Profile Box */
+    .profile-360 {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1.25rem;
+      align-items: center;
+    }
+
+    @media (max-width: 850px) {
+      .profile-360 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin-top: 0.85rem;
+    }
+
+    .detail-box {
+      background: rgba(8, 8, 12, 0.65);
+      padding: 0.65rem 0.8rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .detail-box span {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .detail-box strong {
+      font-size: 0.86rem;
+      color: #fff;
+    }
+
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    /* Toast Notification */
+    #toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .toast {
+      background: rgba(16, 16, 26, 0.95);
+      border: 1px solid var(--neon-magenta);
+      box-shadow: var(--neon-glow);
+      color: #fff;
+      padding: 0.85rem 1.15rem;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      max-width: 360px;
+      animation: slideIn 0.25s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-logo">
+      MOTO<span class="neon-zz">ZZ</span>
+      <span style="font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0; margin-left: 0.5rem;">
+        ERP &amp; CRM CORE v2.6
+      </span>
+    </div>
+
+    <nav class="nav-tabs" aria-label="Módulos del Sistema">
+      <button class="tab-btn active" data-tab="overview">Vista General</button>
+      <button class="tab-btn" data-tab="erp">Módulo ERP (SCM &amp; PDI)</button>
+      <button class="tab-btn" data-tab="crm">Módulo CRM (360° &amp; Bonding)</button>
+    </nav>
+
+    <div class="header-meta">
+      <span class="sync-badge"><span class="pulse-dot"></span> Webhooks Store ↔ ERP ↔ CRM Activos</span>
+      <span>GitHub: <strong>main@9f4c2a1</strong></span>
+    </div>
+  </header>
+
+  <main>
+    <!-- KPIs EN TIEMPO REAL -->
+    <section class="kpi-grid" aria-label="Indicadores Clave en Tiempo Real">
+      <article class="glass-card">
+        <div class="kpi-label">Ventas Netas del Mes (D2C)</div>
+        <div class="kpi-value" id="kpi-sales">$482,450</div>
+        <div class="kpi-sub">
+          <span>Fiat 74% · Web3/USDT 26%</span>
+          <span class="trend-up">+18.4%</span>
+        </div>
+      </article>
+
+      <article class="glass-card">
+        <div class="kpi-label">Unidades en Stock Maestro</div>
+        <div class="kpi-value" id="kpi-stock">34</div>
+        <div class="kpi-sub">
+          <span>4 Modelos Activos · SoH 99.4%</span>
+          <span style="color: #d8b4fe;">3 Micro-Nodos</span>
+        </div>
+      </article>
+
+      <article class="glass-card">
+        <div class="kpi-label">Órdenes en Ensamblaje PDI</div>
+        <div class="kpi-value" id="kpi-pdi">9</div>
+        <div class="kpi-sub">
+          <span>Ciclo medio: 5.4 días</span>
+          <span class="trend-up">98.2% SLA</span>
+        </div>
+      </article>
+
+      <article class="glass-card">
+        <div class="kpi-label">Tickets CRM &amp; Soporte IA</div>
+        <div class="kpi-value" id="kpi-tickets">12</div>
+        <div class="kpi-sub">
+          <span>79% Resueltos por IA Cognitiva</span>
+          <span style="color: #7dd3fc;">NPS 76</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- PESTAÑA 1: VISTA GENERAL -->
+    <section id="tab-overview" class="tab-panel active">
+      <div class="two-col">
+        <article class="glass-card">
+          <div class="section-header">
+            <h2 class="section-title">Disponibilidad Maestro por Modelo</h2>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">Sincronizado con Tienda Virtual</span>
+          </div>
+          <div id="stock-bars-container"></div>
+        </article>
+
+        <article class="glass-card">
+          <div class="section-header">
+            <h2 class="section-title">Bus de Eventos &amp; Webhooks en Vivo</h2>
+            <button class="btn-outline" onclick="simulateStoreOrder(true)">+ Simular Compra Web</button>
+          </div>
+          <div class="event-log" id="event-log">
+            <div class="log-entry"><span class="log-time">[10:14:02]</span> <strong>webhook.store.checkout</strong> → Orden #MTZ-9041 (MOTOZZ One Apex) pagada vía Apple Pay ($21,999).</div>
+            <div class="log-entry"><span class="log-time">[10:14:03]</span> <strong>erp.inventory.lock</strong> → VIN <code>MTZ1APX26EC000842</code> asignado en Micro-Nodo Norte.</div>
+            <div class="log-entry"><span class="log-time">[10:14:03]</span> <strong>crm.rider.upsert</strong> → Ficha 360° actualizada para <em>Valeria Montalvo</em> (Etapa: Reserva Pagada).</div>
+            <div class="log-entry"><span class="log-time">[10:18:45]</span> <strong>iot.twin.telemetry</strong> → Alerta preventiva disparada en CRM para VIN <code>MTZ2TRX26EC000419</code> (Revisión correa 5,000 km).</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 2: MÓDULO ERP -->
+    <section id="tab-erp" class="tab-panel">
+      <div class="glass-card" style="margin-bottom: 1.5rem;">
+        <div class="section-header">
+          <h2 class="section-title">Simulador de Ingreso de Orden desde Tienda Virtual</h2>
+          <span style="font-size: 0.8rem; color: #d8b4fe;">Dispara reserva de VIN, factura electrónica y orden PDI</span>
+        </div>
+
+        <div class="erp-sim-bar">
+          <div class="form-group">
+            <label for="sim-customer">Nombre del Comprador / Flota</label>
+            <input type="text" id="sim-customer" class="form-control" value="Mateo Villacís" />
+          </div>
+          <div class="form-group">
+            <label for="sim-model">Modelo Catálogo MOTOZZ</label>
+            <select id="sim-model" class="form-control">
+              <option value="MOTOZZ One Apex|21999|APX">MOTOZZ One Apex ($21,999)</option>
+              <option value="MOTOZZ S2 Tracker|15499|S2T">MOTOZZ S2 Tracker ($15,499)</option>
+              <option value="MOTOZZ Terra-X Adventure|23995|TRX">MOTOZZ Terra-X Adventure ($23,995)</option>
+              <option value="MOTOZZ FX Supermoto|12499|FXS">MOTOZZ FX Supermoto ($12,499)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sim-color">Acabado / Color</label>
+            <select id="sim-color" class="form-control">
+              <option value="Neon Eclipse">Neon Eclipse (#d946ef)</option>
+              <option value="OLED Stealth Black">OLED Stealth Black</option>
+              <option value="Cyber Titanium">Cyber Titanium</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sim-payment">Método de Pago Checkout</label>
+            <select id="sim-payment" class="form-control">
+              <option value="Tarjeta Crédito">Tarjeta Crédito / Débito</option>
+              <option value="USDT (Web3 Escrow)">Web3 / USDT (Smart Escrow)</option>
+              <option value="Apple Pay">Apple Pay / Billetera Digital</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn-neon" style="width: 100%;" onclick="simulateStoreOrder(false)">Procesar Orden en ERP</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="section-header">
+          <h2 class="section-title">Inventario Maestro por VIN y Trazabilidad de Baterías</h2>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Garantía 5 años vinculada a Lote de Celdas</span>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>VIN Motocicleta</th>
+                <th>Modelo &amp; Color</th>
+                <th>Lote Batería &amp; SoH</th>
+                <th>Micro-Nodo PDI</th>
+                <th>Landed Cost</th>
+                <th>Estado Operativo</th>
+                <th>Acción PDI</th>
+              </tr>
+            </thead>
+            <tbody id="erp-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 3: MÓDULO CRM -->
+    <section id="tab-crm" class="tab-panel">
+      <div class="section-header">
+        <h2 class="section-title">Embudo Omnicanal de Conversión y Entrega (B2C / B2B)</h2>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Haz clic en cualquier cliente para inspeccionar su Perfil 360°</span>
+      </div>
+
+      <div class="pipeline-grid" id="crm-pipeline"></div>
+
+      <div class="glass-card">
+        <div class="section-header">
+          <h2 class="section-title">Perfil 360° del Rider &amp; Puentes Fase 4 (IoT / Blockchain)</h2>
+          <span class="badge badge-delivered" id="profile-segment">SEGMENTO B2C · RIDER VERIFICADO</span>
+        </div>
+
+        <div class="profile-360">
+          <div>
+            <h3 id="p360-name" style="font-size: 1.25rem; color: #fff;">Valeria Montalvo</h3>
+            <p id="p360-email" style="font-size: 0.83rem; color: var(--text-muted);">valeria.montalvo@email.com · Wallet: 0x71C...89A4</p>
+
+            <div class="detail-grid">
+              <div class="detail-box">
+                <span>Modelo Configurado</span>
+                <strong id="p360-model">MOTOZZ One Apex (Neon Eclipse)</strong>
+              </div>
+              <div class="detail-box">
+                <span>VIN Asignado en ERP</span>
+                <strong id="p360-vin">MTZ1APX26EC000842</strong>
+              </div>
+              <div class="detail-box">
+                <span>Método de Pago</span>
+                <strong id="p360-payment">Apple Pay ($21,999 USD)</strong>
+              </div>
+              <div class="detail-box">
+                <span>Telemetría &amp; Salud Batería</span>
+                <strong id="p360-telemetry">SoH 99.6% · 1,240 km · OTA v4.2</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-stack">
+            <button class="btn-neon" onclick="triggerDigitalTwinAlert()">
+              ⚡ Disparar Alerta Mantenimiento Preventivo (Gemelo Digital)
+            </button>
+            <button class="btn-outline" onclick="triggerSmartContract()">
+              🔗 Ejecutar Smart Contract: Liberar Escrow / Acuñar NFT VIN
+            </button>
+            <button class="btn-outline" onclick="advanceCustomerStage()">
+              ➔ Avanzar Etapa en Embudo CRM
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast-container" aria-live="polite"></div>
+
+  <script>
+    // Estado inicial del ecosistema MOTOZZ
+    const state = {
+      monthlySales: 482450,
+      pdiCount: 9,
+      ticketsCount: 12,
+      selectedRiderId: 2,
+      models: [
+        { name: 'MOTOZZ One Apex', price: 21999, stock: 8, max: 15 },
+        { name: 'MOTOZZ S2 Tracker', price: 15499, stock: 11, max: 18 },
+        { name: 'MOTOZZ Terra-X Adventure', price: 23995, stock: 6, max: 12 },
+        { name: 'MOTOZZ FX Supermoto', price: 12499, stock: 9, max: 16 }
+      ],
+      inventory: [
+        {
+          vin: 'MTZ1APX26EC000842',
+          model: 'MOTOZZ One Apex',
+          color: 'Neon Eclipse',
+          batteryLot: 'BAT-LFP-901 (SoH 99.6%)',
+          node: 'Nodo Norte · Quito',
+          landedCost: '$14,850',
+          status: 'En Proceso PDI'
+        },
+        {
+          vin: 'MTZ2S2T26EC000518',
+          model: 'MOTOZZ S2 Tracker',
+          color: 'OLED Stealth Black',
+          batteryLot: 'BAT-LFP-884 (SoH 100%)',
+          node: 'Nodo Costa · Guayaquil',
+          landedCost: '$10,420',
+          status: 'Stock Disponible'
+        },
+        {
+          vin: 'MTZ3TRX26EC000419',
+          model: 'MOTOZZ Terra-X Adventure',
+          color: 'Cyber Titanium',
+          batteryLot: 'BAT-LFP-870 (SoH 98.9%)',
+          node: 'Nodo Austro · Cuenca',
+          landedCost: '$16,310',
+          status: 'Entregado'
+        },
+        {
+          vin: 'MTZ4FXS26EC000733',
+          model: 'MOTOZZ FX Supermoto',
+          color: 'Neon Eclipse',
+          batteryLot: 'BAT-LFP-912 (SoH 100%)',
+          node: 'Nodo Norte · Quito',
+          landedCost: '$8,190',
+          status: 'En Ruta Última Milla'
+        }
+      ],
+      riders: [
+        {
+          id: 1,
+          name: 'Carlos Andrade (Flota EcoDelivery)',
+          email: 'flotas@ecodelivery.ec',
+          wallet: '0x94A...31F0',
+          segment: 'B2B FLOTAS (5 UNIDADES)',
+          stage: 'Leads',
+          model: 'MOTOZZ FX Supermoto (x5)',
+          vin: 'PENDIENTE-ASIGNACIÓN',
+          payment: 'Cotización Corporativa ($62,495)',
+          telemetry: 'En evaluación TCO'
+        },
+        {
+          id: 2,
+          name: 'Valeria Montalvo',
+          email: 'valeria.montalvo@email.com',
+          wallet: '0x71C...89A4',
+          segment: 'B2C · RIDER VERIFICADO',
+          stage: 'Reserva Pagada',
+          model: 'MOTOZZ One Apex (Neon Eclipse)',
+          vin: 'MTZ1APX26EC000842',
+          payment: 'Apple Pay ($21,999 USD)',
+          telemetry: 'En ensamblaje PDI · SoH 99.6%'
+        },
+        {
+          id: 3,
+          name: 'Sebastián Paredes',
+          email: 's.paredes.moto@email.com',
+          wallet: '0x38E...12B9',
+          segment: 'B2C · RIDER ACTIVO',
+          stage: 'En Ruta',
+          model: 'MOTOZZ FX Supermoto (Neon Eclipse)',
+          vin: 'MTZ4FXS26EC000733',
+          payment: 'USDT Web3 Escrow ($12,499)',
+          telemetry: 'PDI 42/42 OK · Transporte asignado'
+        },
+        {
+          id: 4,
+          name: 'Andrea Zambrano',
+          email: 'azambrano.adv@email.com',
+          wallet: '0x55D...77C2',
+          segment: 'B2C · CLUB BONDING VIP',
+          stage: 'Entregado',
+          model: 'MOTOZZ Terra-X Adventure (Cyber Titanium)',
+          vin: 'MTZ3TRX26EC000419',
+          payment: 'Tarjeta Crédito ($23,995 USD)',
+          telemetry: 'SoH 98.9% · 4,920 km · OTA v4.2'
+        }
+      ]
+    };
+
+    const stagesOrder = ['Leads', 'Reserva Pagada', 'En Ruta', 'Entregado'];
+
+    // Navegación entre pestañas
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+      });
+    });
+
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = message;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4200);
+    }
+
+    function appendLog(text) {
+      const log = document.getElementById('event-log');
+      const now = new Date().toTimeString().split(' ')[0];
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.innerHTML = `<span class="log-time">[${now}]</span> ${text}`;
+      log.prepend(entry);
+    }
+
+    function renderKPIs() {
+      const totalStock = state.models.reduce((acc, m) => acc + m.stock, 0);
+      document.getElementById('kpi-sales').textContent = `$${state.monthlySales.toLocaleString('en-US')}`;
+      document.getElementById('kpi-stock').textContent = totalStock;
+      document.getElementById('kpi-pdi').textContent = state.pdiCount;
+      document.getElementById('kpi-tickets').textContent = state.ticketsCount;
+    }
+
+    function renderStockBars() {
+      const container = document.getElementById('stock-bars-container');
+      container.innerHTML = state.models.map(m => {
+        const pct = Math.min(100, Math.round((m.stock / m.max) * 100));
+        return `
+          <div class="stock-item">
+            <div class="stock-meta">
+              <strong>${m.name} <span style="color: var(--text-muted); font-weight: 400;">($${m.price.toLocaleString()})</span></strong>
+              <span><strong>${m.stock}</strong> / ${m.max} uds</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: ${pct}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getStatusBadge(status) {
+      if (status.includes('Stock')) return `<span class="badge badge-stock">${status}</span>`;
+      if (status.includes('PDI')) return `<span class="badge badge-pdi">${status}</span>`;
+      if (status.includes('Ruta')) return `<span class="badge badge-route">${status}</span>`;
+      return `<span class="badge badge-delivered">${status}</span>`;
+    }
+
+    function renderERPTable() {
+      const tbody = document.getElementById('erp-table-body');
+      tbody.innerHTML = state.inventory.map((item, idx) => `
+        <tr>
+          <td><span class="vin-code">${item.vin}</span></td>
+          <td><strong>${item.model}</strong><br><span style="font-size:0.76rem; color:var(--text-muted);">${item.color}</span></td>
+          <td>${item.batteryLot}</td>
+          <td>${item.node}</td>
+          <td>${item.landedCost}</td>
+          <td>${getStatusBadge(item.status)}</td>
+          <td>
+            <button class="btn-outline" onclick="advanceInventoryStatus(${idx})">Avanzar Fase</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function advanceInventoryStatus(idx) {
+      const flow = ['Stock Disponible', 'En Proceso PDI', 'En Ruta Última Milla', 'Entregado'];
+      const current = state.inventory[idx].status;
+      const nextIdx = (flow.indexOf(current) + 1) % flow.length;
+      state.inventory[idx].status = flow[nextIdx];
+      renderERPTable();
+      appendLog(`<strong>erp.pdi.transition</strong> → VIN <code>${state.inventory[idx].vin}</code> cambió a <em>${flow[nextIdx]}</em>.`);
+      showToast(`Estado actualizado en ERP: <strong>${flow[nextIdx]}</strong>`);
+    }
+
+    function renderCRMPipeline() {
+      const grid = document.getElementById('crm-pipeline');
+      grid.innerHTML = stagesOrder.map(stage => {
+        const ridersInStage = state.riders.filter(r => r.stage === stage);
+        return `
+          <div class="stage-col">
+            <div class="stage-header">
+              <span>${stage}</span>
+              <span class="stage-count">${ridersInStage.length}</span>
+            </div>
+            ${ridersInStage.map(r => `
+              <div class="rider-card ${r.id === state.selectedRiderId ? 'selected' : ''}" onclick="selectRider(${r.id})">
+                <div class="rider-name">${r.name}</div>
+                <div class="rider-model">${r.model}</div>
+                <div class="rider-pay">${r.payment}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectRider(id) {
+      state.selectedRiderId = id;
+      renderCRMPipeline();
+      const rider = state.riders.find(r => r.id === id);
+      if (!rider) return;
+      document.getElementById('profile-segment').textContent = rider.segment;
+      document.getElementById('p360-name').textContent = rider.name;
+      document.getElementById('p360-email').textContent = `${rider.email} · Wallet: ${rider.wallet}`;
+      document.getElementById('p360-model').textContent = rider.model;
+      document.getElementById('p360-vin').textContent = rider.vin;
+      document.getElementById('p360-payment').textContent = rider.payment;
+      document.getElementById('p360-telemetry').textContent = rider.telemetry;
+    }
+
+    function simulateStoreOrder(quickRandom) {
+      let customer = document.getElementById('sim-customer').value.trim() || 'Rider Web';
+      let rawModel = document.getElementById('sim-model').value;
+      let color = document.getElementById('sim-color').value;
+      let payment = document.getElementById('sim-payment').value;
+
+      if (quickRandom) {
+        const names = ['Diego Cárdenas', 'Camila Escobar', 'Martín Benítez', 'Sofía Ruales'];
+        customer = names[Math.floor(Math.random() * names.length)];
+        const opts = document.getElementById('sim-model').options;
+        rawModel = opts[Math.floor(Math.random() * opts.length)].value;
+        color = 'Neon Eclipse';
+        payment = 'USDT (Web3 Escrow)';
+      }
+
+      const [modelName, priceStr, sku] = rawModel.split('|');
+      const price = parseInt(priceStr, 10);
+      const modelObj = state.models.find(m => m.name === modelName);
+
+      if (modelObj && modelObj.stock > 0) {
+        modelObj.stock -= 1;
+      }
+
+      const randomNum = Math.floor(100000 + Math.random() * 900000);
+      const newVin = `MTZ1${sku}26EC${randomNum}`;
+
+      state.monthlySales += price;
+      state.pdiCount += 1;
+
+      state.inventory.unshift({
+        vin: newVin,
+        model: modelName,
+        color: color,
+        batteryLot: `BAT-LFP-${Math.floor(920 + Math.random() * 70)} (SoH 100%)`,
+        node: 'Nodo Norte · Quito',
+        landedCost: `$${Math.round(price * 0.67).toLocaleString()}`,
+        status: 'En Proceso PDI'
+      });
+
+      const newId = Date.now();
+      state.riders.unshift({
+        id: newId,
+        name: customer,
+        email: `${customer.toLowerCase().replace(/\s+/g, '.')}@rider.io`,
+        wallet: `0x${Math.random().toString(16).substring(2, 6).toUpperCase()}...9F2A`,
+        segment: 'B2C · NUEVA RESERVA D2C',
+        stage: 'Reserva Pagada',
+        model: `${modelName} (${color})`,
+        vin: newVin,
+        payment: `${payment} ($${price.toLocaleString()})`,
+        telemetry: 'Orden PDI recién creada · SoH 100%'
+      });
+
+      state.selectedRiderId = newId;
+
+      renderKPIs();
+      renderStockBars();
+      renderERPTable();
+      renderCRMPipeline();
+      selectRider(newId);
+
+      appendLog(`<strong>order.payment.confirmed</strong> → <em>${customer}</em> compró <strong>${modelName}</strong>. VIN <code>${newVin}</code> asignado y enviado a CRM.`);
+      showToast(`✅ Orden sincronizada: <strong>${modelName}</strong> asignada a ${customer}`);
+    }
+
+    function triggerDigitalTwinAlert() {
+      const rider = state.riders.find(r => r.id === state.selectedRiderId);
+      state.ticketsCount += 1;
+      renderKPIs();
+      appendLog(`<strong>iot.digital_twin.alert</strong> → Diagnóstico preventivo enviado a app de <em>${rider.name}</em> (VIN <code>${rider.vin}</code>).`);
+      showToast(`⚡ Alerta IoT enviada al perfil 360° de <strong>${rider.name}</strong>`);
+    }
+
+    function triggerSmartContract() {
+      const rider = state.riders.find(r => r.id === state.selectedRiderId);
+      const txHash = `0x${Math.random().toString(16).substring(2, 14)}...e81b`;
+      appendLog(`<strong>blockchain.smart_contract</strong> → Escrow liberado y NFT de propiedad acuñado para VIN <code>${rider.vin}</code> (Tx: <code>${txHash}</code>).`);
+      showToast(`🔗 Smart Contract ejecutado: Propiedad VIN registrada on-chain.`);
+    }
+
+    function advanceCustomerStage() {
+      const rider = state.riders.find(r => r.id === state.selectedRiderId);
+      const idx = stagesOrder.indexOf(rider.stage);
+      if (idx < stagesOrder.length - 1) {
+        rider.stage = stagesOrder[idx + 1];
+        renderCRMPipeline();
+        appendLog(`<strong>crm.pipeline.moved</strong> → <em>${rider.name}</em> avanzó a <strong>${rider.stage}</strong>.`);
+        showToast(`➔ ${rider.name} movido a <strong>${rider.stage}</strong>`);
+      } else {
+        showToast(`🏁 ${rider.name} ya es un <strong>Rider Activo</strong> con entrega completada.`);
+      }
+    }
+
+    // Inicialización
+    renderKPIs();
+    renderStockBars();
+    renderERPTable();
+    renderCRMPipeline();
+    selectRider(2);
+  </script>
+</body>
+</html>
